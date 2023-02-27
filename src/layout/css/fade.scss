@@ -1,19 +1,54 @@
-// 下拉菜单出现效果
 .dropdown-fade-show-enter-active {
-  animation fadeShow:.25s
+  animation: fadeShow 0.25s;
 }
-
 .dropdown-fade-show-leave-to {
-  animation fadeShow : .25s reverse
+  animation: fadeShow 0.25s reverse;
 }
-
-@keyframes fadeShow {
+@-moz-keyframes fadeShow {
   0% {
-    transform-origin 0 top
-    transform scaleY(0) opacity 0
+    transform-origin: 0 top;
+    transform: scaleY(0);
+    opacity: 0;
   }
   100% {
-    transform-origin 0 top
-    transform scaleY(1) opacity 1
+    transform-origin: 0 top;
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeShow {
+  0% {
+    transform-origin: 0 top;
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% {
+    transform-origin: 0 top;
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+@-o-keyframes fadeShow {
+  0% {
+    transform-origin: 0 top;
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% {
+    transform-origin: 0 top;
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+@keyframes fadeShow {
+  0% {
+    transform-origin: 0 top;
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% {
+    transform-origin: 0 top;
+    transform: scaleY(1);
+    opacity: 1;
   }
 }

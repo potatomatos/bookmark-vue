@@ -3,13 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import '@/assets/style/style.css'
 // store
 import store from '@/store/index'
-
-import 'jquery-ui-dist/jquery-ui'
-import 'jquery-ui-dist/jquery-ui.min.css'
-import '@/assets/style/normalize.min.css'
-import '@/assets/style/style.scss'
 
 // svg 图标
 import '@/assets/svg-icons'
@@ -22,7 +18,6 @@ import Contextmenu from 'vue-contextmenujs'
 // elementUI
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import '@/assets/style/mime.scss'
 
 // 弹框组件
 import layer from 'vue-pubilc-layer'
