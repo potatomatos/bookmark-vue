@@ -8,10 +8,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "./css/init";
   header {
     width: 100%;
-    height: 120px;
+    height: $banner-height;
     background: url("../assets/img/header-background.png") repeat-x;
   }
 </style>

@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style>
+#app {
+  height: 100%;
+}
 /*滚动条样式*/
 div::-webkit-scrollbar {
   width: 10px;

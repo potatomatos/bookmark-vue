@@ -18,7 +18,6 @@
           {{ item.titleName }}
         </li>
         <li id="bars" @click="dropDownShow = !dropDownShow">
-          <!--<i class="fa fa-bars fa-lg"/>-->
           <icon name="bars" size="lg"></icon>
         </li>
       </ul>
