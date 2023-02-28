@@ -30,7 +30,7 @@ export default {
   height: 100%;
 }
 #mainContent {
-  background: #eeeeee;
+  background: #ffffff;
   overflow-y: auto;
   flex: 1;
 }
