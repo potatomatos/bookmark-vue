@@ -2,7 +2,9 @@
   <div class="app-container">
     <Banner></Banner>
     <Header></Header>
-    <div id="mainContent"></div>
+    <div id="mainContent">
+      <router-view></router-view>
+    </div>
     <Footer></Footer>
   </div>
 </template>

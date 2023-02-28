@@ -2,7 +2,7 @@ import { request } from './_service.js'
 
 export function GET_ACCESS_TOKEN (params = {}) {
   return request({
-    url: '/api/cloud-disk/system/getAccessToken',
+    url: '/api/bookmark/system/getAccessToken',
     method: 'get',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'

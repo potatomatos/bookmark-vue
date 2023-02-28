@@ -33,7 +33,7 @@ export default {
         password: '123123',
         captcha: '',
         type: 'PASSWORD',
-        clientId: 'system',
+        clientId: 'bookmark',
         redirectUri: 'http://localhost:8082/auth'
       }
     }
@@ -110,7 +110,7 @@ export default {
 <style lang="scss" scoped>
   .container {
     height: 100%;
-    /*background-image: linear-gradient(to right, #fbc2eb, #a6c1ee);*/
+    background-image: linear-gradient(to right, #fbc2eb, #a6c1ee);
   }
 
   .login-wrapper {

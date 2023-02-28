@@ -86,6 +86,7 @@ export default {
     line-height: $header-height;
     width: $header-li-width;
     display: inline-block;
+    text-align: center;
   }
   .header .container .container-left-ul #icon {
     height: 30px;
@@ -98,6 +99,7 @@ export default {
   .header .container .container-left-ul .container-left-li:hover {
     color: $menu-active-color;
     box-shadow: 0px -4px 0px $menu-active-color inset;
+    cursor: pointer;
   }
   .header .container .container-right-ul {
     float: right;
@@ -107,10 +109,12 @@ export default {
     line-height: $header-height;
     width: $header-li-width;
     display: inline-block;
+    text-align: center;
   }
   .header .container .container-right-ul .container-right-li:hover {
     color: $menu-active-color;
     box-shadow: 0px -4px 0px $menu-active-color inset;
+    cursor: pointer;
   }
   .header .container .container-right-ul #bars > i {
     padding: 8px 14px;

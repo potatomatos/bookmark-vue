@@ -14,7 +14,7 @@ const frameIn = [
         name: 'index',
         meta: {
           title: '首页',
-          auth: false
+          auth: true
         },
         component: () => import('@/views/index')
       }
