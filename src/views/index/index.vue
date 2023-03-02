@@ -1,10 +1,13 @@
 <template>
   <div class="wrapper">
-    <el-breadcrumb separator="/" class="nav-bar">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-      <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-      <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+    <el-breadcrumb separator="\" class="nav-bar">
+      <el-breadcrumb-item><a href="javascript:" @click="getBookmarks(0)">我的收藏</a></el-breadcrumb-item>
+      <el-breadcrumb-item
+        v-for="parent in parents"
+        :key="parent.nodeId">
+        <span v-if="parent.nodeId===cwd.nodeId">{{parent.title}}</span>
+        <a href="javascript:" @click="getBookmarks(parent.nodeId)" v-else>{{parent.title}}</a>
+      </el-breadcrumb-item>
     </el-breadcrumb>
     <el-row :gutter="20">
       <el-col :span="4">
@@ -60,6 +63,16 @@
               <el-input placeholder="搜索" size="mini" v-model="params.keyword"></el-input>
             </el-col>
           </el-row>
+          <el-row class="search-bar">
+           <el-col :span="24">
+             <el-input
+               @keyup.enter.native="getBookmarks(cwd.nodeId)"
+               placeholder="搜索关键字"
+               suffix-icon="el-icon-search"
+               v-model="params.keyword">
+             </el-input>
+           </el-col>
+          </el-row>
           <el-divider></el-divider>
           <ul class="bookmark-list" v-if="bookmarks.length">
             <li v-for="bookmark in bookmarks" :key="bookmark.nodeId" :class="{'active':bookmark.nodeId===currentNode.nodeId}"
@@ -103,6 +116,7 @@ export default {
         label: 'title'
       },
       bookmarks: [],
+      parents: [],
       // 列表请求参数
       params: {
         keyword: '',
@@ -114,6 +128,7 @@ export default {
         title: '我的收藏',
         children: []
       },
+      id: null,
       // 单击的行
       currentNode: {}
     }
@@ -139,7 +154,8 @@ export default {
       BOOKMARKS(pid, this.params).then(res => {
         this.bookmarks = []
         if (res.code === 200) {
-          this.bookmarks = [...res.data]
+          this.bookmarks = [...res.data.bookmarks]
+          this.parents = [...res.data.parents]
         }
       })
     },
@@ -167,7 +183,6 @@ export default {
 <style lang="scss" scoped>
   .wrapper {
     padding: 20px 10px;
-    background: #e7e7e7;
   }
 
   .bookmark-tree {
@@ -277,6 +292,9 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  .search-bar {
+    display: none;
+  }
   @media screen and (max-width: 768px) {
     .bookmark-tree {
       display: none !important;
@@ -298,8 +316,8 @@ export default {
     .tool-bar {
       display: none;
     }
-    .el-divider {
-      display: none;
+    .search-bar {
+      display: block;
     }
   }
 </style>
