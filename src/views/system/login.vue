@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @keyup.enter="login">
     <div class="login-wrapper">
       <div class="header">登录</div>
       <div class="form-wrapper">
