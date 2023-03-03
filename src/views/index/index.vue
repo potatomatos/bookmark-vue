@@ -34,7 +34,7 @@
               <el-row>
                 <el-col :span="12">
                   <label>排序</label>
-                  <el-select size="mini" v-model="params.sort">
+                  <el-select size="mini" v-model="params.sort" @change="getBookmarks(cwd.nodeId)">
                     <el-option label="按默认排序" :value="0"></el-option>
                     <el-option label="按名称排序" :value="1"></el-option>
                     <el-option label="按域名排序" :value="2"></el-option>
@@ -57,7 +57,7 @@
               </el-row>
             </el-col>
             <el-col :span="6" class="word-height">
-              <el-input placeholder="搜索" size="mini" v-model="params.keyword"></el-input>
+              <el-input placeholder="搜索" size="mini" v-model="params.keyword" @change="getBookmarks(cwd.nodeId)"></el-input>
             </el-col>
           </el-row>
           <el-divider></el-divider>
