@@ -38,6 +38,7 @@
                     <el-option label="按默认排序" :value="0"></el-option>
                     <el-option label="按名称排序" :value="1"></el-option>
                     <el-option label="按域名排序" :value="2"></el-option>
+                    <el-option label="最常访问" :value="3"></el-option>
                   </el-select>
                 </el-col>
                 <el-col :span="4" class="word-height">
