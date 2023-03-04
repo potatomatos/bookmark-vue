@@ -7,13 +7,13 @@
         <li>
           <img id="icon" src="@/assets/img/icon.png"/>
         </li>
-        <li :class="$store.state.activeName === item.activeName ? 'menu-item-active' : 'container-left-li'" @click="toActiveMenuItem(item)"
+        <li :class="activeRoute === item.activeUrl ? 'menu-item-active' : 'container-left-li'" @click="toActiveMenuItem(item)"
             v-for="(item, index) in leftMenuList" :key="index">
           {{ item.titleName }}
         </li>
       </ul>
       <ul class="container-right-ul">
-        <li :class="$store.state.activeName === item.activeName ? 'menu-item-active' : 'container-right-li'" @click="toActiveMenuItem(item)"
+        <li :class="activeRoute === item.activeUrl ? 'menu-item-active' : 'container-right-li'" @click="toActiveMenuItem(item)"
             v-for="(item, index) in rightMenuList" :key="index">
           {{ item.titleName }}
         </li>
@@ -46,20 +46,29 @@ export default {
       dropDownShow: false, // 控制下拉菜单显示
       leftMenuList: [ // 左侧菜单内容
         { activeName: 'Home', titleName: '主页', activeUrl: '/index' },
-        { activeName: 'Infinity', titleName: 'Infinity', activeUrl: '/infinity' },
-        { activeName: 'About', titleName: '关于', activeUrl: '/about' }
+        { activeName: 'Recent', titleName: '最近访问', activeUrl: '/recent' }
       ],
       rightMenuList: [ // 右侧菜单内容
         { activeName: 'Support', titleName: '赞助', activeUrl: '/support' }
       ],
-      activeName: '' // 导航栏激活名称
+      activeRoute: ''
     }
   },
   methods: {
     toActiveMenuItem (item) { // 激活导航菜单
-      this.activeName = item.titleName
       this.$router.push(item.activeUrl)
       this.dropDownShow = false
+    }
+  },
+  watch: {
+    // 检测路由变化加载菜单列表
+    '$route.matched': {
+      handler (matched) {
+        if (matched.length > 0) {
+          this.activeRoute = matched[matched.length - 1].path
+        }
+      },
+      immediate: true
     }
   }
 }

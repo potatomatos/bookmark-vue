@@ -22,6 +22,35 @@ export function BOOKMARKS (pid = 0, data = {}) {
 }
 
 /**
+ * 最近访问
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function RECENT (data = {}) {
+  // 接口请求
+  return request({
+    url: '/api/bookmark/my-bookmark/recent',
+    method: 'post',
+    data
+  })
+}
+/**
+ * 保存书签
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function SAVE (data = {}) {
+  // 接口请求
+  return request({
+    url: '/api/bookmark/my-bookmark/save/bookmark',
+    method: 'post',
+    data
+  })
+}
+
+/**
  * 链接访问
  * @param params
  * @returns {*}

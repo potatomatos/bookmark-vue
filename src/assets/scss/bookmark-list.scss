@@ -1,0 +1,82 @@
+.bookmark-list {
+  li {
+    width: 100%;
+    height: 24px;
+    cursor: pointer;
+    zoom: 1;
+    margin-bottom: 8px;
+    &:after{
+      content: "";
+      display: block;
+      height: 0;
+      clear:both;
+      visibility: hidden;
+    }
+  }
+  .active {
+    background: #F39814;
+  }
+}
+.link-title {
+  float: left;
+  max-width: 60%;
+  min-width: 60%;
+  line-height: 24px;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
+  font-size: 12px;
+}
+.link-icon {
+  float: left;
+  min-width: 24px;
+  max-width: 24px;
+  width: auto;
+  text-align: right;
+  .el-image {
+    width: 100%;
+    height: 100%;
+  }
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+.link-url{
+  float: left;
+  max-width: 27%;
+  min-width: 27%;
+  line-height: 24px;
+  width: auto;
+  font-size: 12px;
+  color: #666666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.create-time {
+  float: right;
+  max-width: 10%;
+  min-width: 10%;
+  width: auto;
+  text-align: right;
+  font-size: 12px;
+  color: #999999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+  .link-url {
+    display: none;
+  }
+  .link-title {
+    max-width: 70%;
+  }
+  .create-time {
+    max-width: 20%;
+  }
+}

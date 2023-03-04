@@ -17,6 +17,15 @@ const frameIn = [
           auth: true
         },
         component: () => import('@/views/index')
+      },
+      {
+        path: 'recent',
+        name: 'recent',
+        meta: {
+          title: '最近访问',
+          auth: true
+        },
+        component: () => import('@/views/recent')
       }
     ]
   }

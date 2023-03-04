@@ -26,7 +26,7 @@
           </el-tree>
         </div>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="20" v-loading="LOADING">
         <div class="bookmark-content">
           <el-row class="tool-bar">
             <el-col :span="6" class="word-height">
@@ -45,13 +45,13 @@
                   </el-select>
                 </el-col>
                 <el-col :span="4" class="word-height">
-                  <el-dropdown>
+                  <el-dropdown @command="handleCommand">
                     <strong class="el-dropdown-link">
                       新建<i class="el-icon-arrow-down el-icon--right"></i>
                     </strong>
                     <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>新建收藏夹</el-dropdown-item>
-                      <el-dropdown-item>新建书签</el-dropdown-item>
+                      <el-dropdown-item :command="1">新建收藏夹</el-dropdown-item>
+                      <el-dropdown-item :command="2">新建书签</el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
                 </el-col>
@@ -101,16 +101,34 @@
         </div>
       </el-col>
     </el-row>
+    <bookmark-new
+      :folder-id="cwd.nodeId"
+      :dialog="newBookmarkDialog"
+      :close="()=>{
+        this.newBookmarkDialog=false
+      }"
+      :cancel="()=>{
+        this.newBookmarkDialog=false
+      }"
+      :confirm="()=>{
+        this.newBookmarkDialog = false
+        this.getBookmarks(cwd.nodeId)
+      }"
+    ></bookmark-new>
   </div>
 </template>
 
 <script>
 import {FOLDERS_TREE, BOOKMARKS, REDIRECT} from '@/api/api.index'
 import {formatMsgTime} from '@/libs/util.common'
+import bookmarkNew from './bookmark-new'
 export default {
   name: 'index',
+  components: {bookmarkNew},
   data () {
     return {
+      LOADING: false,
+      newBookmarkDialog: false,
       data: [],
       defaultProps: {
         children: 'children',
@@ -152,7 +170,9 @@ export default {
       this.getBookmarks(data.nodeId)
     },
     getBookmarks (pid) {
+      this.LOADING = true
       BOOKMARKS(pid, this.params).then(res => {
+        this.LOADING = false
         this.bookmarks = []
         if (res.code === 200) {
           this.bookmarks = [...res.data.bookmarks]
@@ -176,12 +196,19 @@ export default {
     },
     bookmarkClick (bookmark) {
       this.currentNode = bookmark
+    },
+    handleCommand (command) {
+      console.log('command', command)
+      if (command === 2) {
+        this.newBookmarkDialog = true
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/scss/bookmark-list";
   .wrapper {
     padding: 20px 10px;
   }
@@ -223,76 +250,7 @@ export default {
     font-weight: normal;
     color: #999999;
   }
-  .bookmark-list {
-    li {
-      width: 100%;
-      height: 24px;
-      cursor: pointer;
-      zoom: 1;
-      margin-bottom: 8px;
-      &:after{
-        content: "";
-        display: block;
-        height: 0;
-        clear:both;
-        visibility: hidden;
-      }
-    }
-    .active {
-      background: #F39814;
-    }
-  }
-  .link-title {
-    float: left;
-    max-width: 60%;
-    min-width: 60%;
-    line-height: 24px;
-    width: auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    user-select: none;
-    font-size: 12px;
-  }
-  .link-icon {
-    float: left;
-    min-width: 24px;
-    max-width: 24px;
-    width: auto;
-    text-align: right;
-    .el-image {
-      width: 100%;
-      height: 100%;
-    }
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-  .link-url{
-    float: left;
-    max-width: 27%;
-    min-width: 27%;
-    line-height: 24px;
-    width: auto;
-    font-size: 12px;
-    color: #666666;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .create-time {
-    float: right;
-    max-width: 10%;
-    min-width: 10%;
-    width: auto;
-    text-align: right;
-    font-size: 12px;
-    color: #999999;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+
   .search-bar {
     display: none;
   }
@@ -307,12 +265,6 @@ export default {
 
     .nav-bar {
       display: block;
-    }
-    .link-url {
-      display: none;
-    }
-    .link-title {
-      max-width: 80%;
     }
     .tool-bar {
       display: none;
