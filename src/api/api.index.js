@@ -22,6 +22,30 @@ export function BOOKMARKS (pid = 0, data = {}) {
 }
 
 /**
+ * @description 删除书签
+ * @param id
+ */
+export function BOOKMARK_DEL (id) {
+  // 接口请求
+  return request({
+    url: '/api/bookmark/my-bookmark/delete/bookmark/' + id,
+    method: 'post'
+  })
+}
+
+/**
+ * @description 删除收藏夹
+ * @param id
+ */
+export function FOLDER_DEL (id) {
+  // 接口请求
+  return request({
+    url: '/api/bookmark/my-bookmark/delete/folder/' + id,
+    method: 'post'
+  })
+}
+
+/**
  * 最近访问
  * @param data
  * @returns {*}
@@ -41,10 +65,25 @@ export function RECENT (data = {}) {
  * @returns {*}
  * @constructor
  */
-export function SAVE (data = {}) {
+export function CREATE_BOOKMARK (data = {}) {
   // 接口请求
   return request({
     url: '/api/bookmark/my-bookmark/save/bookmark',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 保存收藏夹
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function CREATE_FOLDER (data = {}) {
+  // 接口请求
+  return request({
+    url: '/api/bookmark/my-bookmark/save/folder',
     method: 'post',
     data
   })

@@ -56,7 +56,7 @@ export default {
     },
     bookmarkDbClick (bookmark) {
       // 直接打开链接
-      REDIRECT({url: bookmark.url}).then(res => {
+      REDIRECT({url: bookmark.url, id: bookmark.id}).then(res => {
         if (res.code === 200) {
           window.open(res.data)
         }

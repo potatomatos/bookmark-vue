@@ -30,14 +30,13 @@
 </template>
 
 <script>
-import {SAVE} from '@/api/api.index'
-import { Message } from 'element-ui'
+import {CREATE_BOOKMARK} from '@/api/api.index'
 
 export default {
   name: 'bookmarkNew',
   props: {
     folderId: {
-      type: Number,
+      type: [Number, String],
       required: true
     },
     dialog: {
@@ -95,12 +94,15 @@ export default {
     save () {
       this.$refs.dataForm.validate((valid) => {
         if (valid) {
-          SAVE(this.bookmark).then(res => {
+          CREATE_BOOKMARK(this.bookmark).then(res => {
             if (res.code === 200) {
               if (this.confirm) {
                 this.confirm()
               } else {
-                Message.error(res.msg)
+                this.$notify.error({
+                  title: '错误',
+                  message: res.msg
+                })
               }
             }
           })

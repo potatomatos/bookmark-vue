@@ -88,7 +88,7 @@ function createRequest (service) {
         'Content-Type': get(config, 'headers.Content-Type', 'application/json'),
         'x-requested-with': 'XMLHttpRequest'
       },
-      timeout: 5000,
+      timeout: 10000,
       baseURL: '/',
       data: {}
     }
