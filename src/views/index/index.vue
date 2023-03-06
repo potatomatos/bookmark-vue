@@ -258,7 +258,6 @@ export default {
      * @param bookmark
      */
     onContextmenu (event, bookmark) {
-      console.log('-----', bookmark)
       if (bookmark) {
         this.bookmarkClick(bookmark)
       }

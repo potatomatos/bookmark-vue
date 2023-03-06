@@ -69,7 +69,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        roleCode: [
+        url: [
           {
             required: true,
             message: '请输入链接地址',
