@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    title="新建书签"
+    title="更新书签"
     :before-close="handleClose"
     :visible.sync="dialog"
     :wrapperClosable="false"
@@ -10,12 +10,12 @@
   >
     <el-container>
       <el-main>
-        <el-form :model="bookmark" :rules="rules" ref="dataForm" label-width="100px" label-position="right">
+        <el-form :model="data" :rules="rules" ref="dataForm" label-width="100px" label-position="right">
           <el-form-item label="名称" prop="title">
-            <el-input v-model="bookmark.title" :clearable="true"></el-input>
+            <el-input v-model="data.title" :clearable="true"></el-input>
           </el-form-item>
           <el-form-item label="链接地址" prop="url">
-            <el-input v-model="bookmark.url" :clearable="true"></el-input>
+            <el-input v-model="data.href" :clearable="true"></el-input>
           </el-form-item>
         </el-form>
       </el-main>
@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import {CREATE_BOOKMARK, CHECK_URL} from '@/api/api.index'
+import {UPDATE_BOOKMARK, CHECK_URL} from '@/api/api.index'
 
 export default {
-  name: 'bookmarkNew',
+  name: 'bookmarkUpdate',
   props: {
-    folderId: {
-      type: [Number, String],
+    data: {
+      type: Object,
       required: true
     },
     dialog: {
@@ -57,10 +57,6 @@ export default {
   },
   data () {
     return {
-      bookmark: {
-        title: '',
-        url: ''
-      },
       rules: {
         title: [
           {
@@ -69,11 +65,11 @@ export default {
             trigger: 'blur'
           }
         ],
-        url: [
+        href: [
           {
             required: true,
             message: '请输入链接地址',
-            trigger: 'blur',
+            trigger: 'change',
             validator: (rule, value, callback) => {
               CHECK_URL({url: value}).then(res => {
                 if (res.code === 200) {
@@ -109,7 +105,8 @@ export default {
     save () {
       this.$refs.dataForm.validate((valid) => {
         if (valid) {
-          CREATE_BOOKMARK(this.bookmark).then(res => {
+          const postData = {id: this.data.nodeId, title: this.data.title, url: this.data.href}
+          UPDATE_BOOKMARK(postData).then(res => {
             if (res.code === 200) {
               if (this.confirm) {
                 this.confirm()
@@ -123,11 +120,6 @@ export default {
           })
         }
       })
-    }
-  },
-  watch: {
-    folderId (val) {
-      this.bookmark.folderId = val
     }
   }
 }

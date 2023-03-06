@@ -116,6 +116,17 @@
         this.getBookmarks(cwd.nodeId)
       }"
     ></bookmark-new>
+    <bookmark-update
+      :data="currentNode"
+      :dialog="updateBookmarkDialog"
+      :close="()=>{
+        this.updateBookmarkDialog=false
+      }" :cancel="()=>{
+        this.updateBookmarkDialog=false
+      }" :confirm="()=>{
+        this.updateBookmarkDialog = false
+        this.getBookmarks(cwd.nodeId)
+      }"></bookmark-update>
     <el-dialog title="新建收藏夹" :visible.sync="newFolderVisibleDialog"
                center>
       <el-form :model="newFolder">
@@ -128,21 +139,36 @@
         <el-button type="primary" @click="createFolder">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="更新收藏夹" :visible.sync="updateFolderVisibleDialog"
+               center>
+      <el-form :model="currentNode">
+        <el-form-item label="收藏夹名称" label-width="120px">
+          <el-input v-model="currentNode.title" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="updateFolderVisibleDialog = false">取 消</el-button>
+        <el-button type="primary" @click="updateFolder">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import {FOLDERS_TREE, BOOKMARKS, REDIRECT, CREATE_FOLDER, BOOKMARK_DEL, FOLDER_DEL} from '@/api/api.index'
+import {FOLDERS_TREE, BOOKMARKS, REDIRECT, CREATE_FOLDER, UPDATE_FOLDER, BOOKMARK_DEL, FOLDER_DEL} from '@/api/api.index'
 import {formatMsgTime} from '@/libs/util.common'
 import bookmarkNew from './bookmark-new'
+import bookmarkUpdate from './bookmark-update'
 export default {
   name: 'index',
-  components: {bookmarkNew},
+  components: {bookmarkNew, bookmarkUpdate},
   data () {
     return {
       LOADING: false,
       newBookmarkDialog: false,
+      updateBookmarkDialog: false,
       newFolderVisibleDialog: false,
+      updateFolderVisibleDialog: false,
       data: [],
       defaultProps: {
         children: 'children',
@@ -252,6 +278,21 @@ export default {
         }
       })
     },
+    updateFolder () {
+      const data = {id: this.currentNode.nodeId, folderName: this.currentNode.title}
+      UPDATE_FOLDER(data).then(res => {
+        if (res.code === 200) {
+          this.updateFolderVisibleDialog = false
+          this.folderTree()
+          this.getBookmarks(this.cwd.nodeId)
+        } else {
+          this.$notify.error({
+            title: '错误',
+            message: res.msg
+          })
+        }
+      })
+    },
     /**
      * 右键菜单
      * @param event
@@ -269,6 +310,17 @@ export default {
             onClick: () => {
               this.folderTree()
               this.getBookmarks(this.cwd.nodeId)
+            }
+          },
+          {
+            label: '修改',
+            hidden: bookmark === undefined,
+            onClick: () => {
+              if (bookmark.type === 1) {
+                this.updateFolderVisibleDialog = true
+              } else {
+                this.updateBookmarkDialog = true
+              }
             }
           },
           {
