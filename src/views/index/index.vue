@@ -192,7 +192,9 @@ export default {
       newFolder: {
         folderName: '',
         parentId: null
-      }
+      },
+      // 多选标识
+      pin: false
     }
   },
   created () {
@@ -211,6 +213,18 @@ export default {
     }
     this.folderTree()
     this.getBookmarks(this.cwd.nodeId)
+
+    // 多选事件
+    window.addEventListener('keydown', code => {
+      if (code.keyCode === 16 && code.shiftKey) {
+        this.pin = true
+      }
+    })
+    window.addEventListener('keyup', code => {
+      if (code.keyCode === 16) {
+        this.pin = false
+      }
+    })
   },
   methods: {
     formatMsgTime,
@@ -253,6 +267,11 @@ export default {
       }
     },
     bookmarkClick (bookmark) {
+      if (this.pin) {
+        console.log('多选')
+      } else {
+        console.log('单选')
+      }
       this.currentNode = bookmark
     },
     handleCommand (command) {
@@ -382,6 +401,8 @@ export default {
   destroyed () {
     // 移除事件
     window.onhashchange = null
+    window.onkeydown = null
+    window.onkeyup = null
   }
 }
 </script>
