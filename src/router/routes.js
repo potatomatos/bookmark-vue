@@ -27,6 +27,15 @@ const frameIn = [
           auth: true
         },
         component: () => import('@/views/recent')
+      },
+      {
+        path: 'import',
+        name: 'import',
+        meta: {
+          title: '导入书签',
+          auth: true
+        },
+        component: () => import('@/views/file/import-bookmark')
       }
     ]
   }

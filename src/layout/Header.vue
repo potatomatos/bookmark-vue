@@ -46,7 +46,8 @@ export default {
       dropDownShow: false, // 控制下拉菜单显示
       leftMenuList: [ // 左侧菜单内容
         { activeName: 'Home', titleName: '主页', activeUrl: '/index' },
-        { activeName: 'Recent', titleName: '最近访问', activeUrl: '/recent' }
+        { activeName: 'Recent', titleName: '最近访问', activeUrl: '/recent' },
+        { activeName: 'Import', titleName: '导入书签', activeUrl: '/import' }
       ],
       rightMenuList: [ // 右侧菜单内容
         { activeName: 'Support', titleName: '赞助', activeUrl: '/support' }
@@ -92,6 +93,7 @@ export default {
   }
   .header .container .container-left-ul li {
     height: 100%;
+    padding: 0 2px;
     line-height: $header-height;
     width: $header-li-width;
     display: inline-block;
