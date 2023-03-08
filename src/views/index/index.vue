@@ -77,7 +77,7 @@
           </el-row>
           <el-divider></el-divider>
           <ul class="bookmark-list" v-if="bookmarks.length">
-            <li v-for="bookmark in bookmarks" :key="bookmark.nodeId" :class="{'active':bookmark.nodeId===currentNode.nodeId}"
+            <li v-for="bookmark in bookmarks" :key="bookmark.nodeId" :class="{'active':(bookmark.nodeId===currentNode.nodeId)||(selectedList.includes(bookmark))}"
                 @dblclick="bookmarkDbClick(bookmark)"
                 @click="bookmarkClick(bookmark)"
                 @contextmenu.prevent="onContextmenu($event,bookmark)">
@@ -189,6 +189,8 @@ export default {
       },
       // 单击的行
       currentNode: {},
+      // 多选行
+      selectedList: [],
       newFolder: {
         folderName: '',
         parentId: null
@@ -268,11 +270,14 @@ export default {
     },
     bookmarkClick (bookmark) {
       if (this.pin) {
-        console.log('多选')
+        this.currentNode = {}
+        if (!this.selectedList.includes(bookmark)) {
+          this.selectedList.push(bookmark)
+        }
       } else {
-        console.log('单选')
+        this.currentNode = bookmark
+        this.selectedList = []
       }
-      this.currentNode = bookmark
     },
     handleCommand (command) {
       if (command === 1) {
