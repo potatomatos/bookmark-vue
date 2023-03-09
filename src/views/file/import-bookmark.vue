@@ -5,12 +5,14 @@
       ref="upload"
       :auto-upload="false"
       :multiple="false"
+      :disabled="progress!==0"
       accept="text/html"
       :limit="1"
       drag
       action="/api/bookmark/my-bookmark/import/bookmark"
       :headers="{access_token:token }"
-      :data="config">
+      :data="config"
+      :on-success="uploadSuccess">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       <div class="el-upload__tip" slot="tip">只能上传html文件，且不超过500kb</div>
@@ -20,17 +22,18 @@
         <el-checkbox v-model="config.clearFlag" true-label="1" false-label="0">导入前清空现有收藏夹</el-checkbox>
         <el-checkbox v-model="config.newFolderFlag" true-label="1" false-label="0">为导入的收藏新建一个文件夹</el-checkbox>
       </el-form-item>
-      <el-form-item>
-        <el-progress :text-inside="true" :stroke-width="24" :percentage="100" :color="customColors"></el-progress>
+      <el-form-item v-if="progress">
+        <el-progress :text-inside="true" :stroke-width="24" :percentage="progress" :color="customColors"></el-progress>
       </el-form-item>
       <el-form-item>
-        <el-button size="small" type="success" @click="submitUpload">导入</el-button>
+        <el-button size="small" type="success" @click="submitUpload" :disabled="progress!==0">导入</el-button>
       </el-form-item>
       </el-form>
   </div>
 </template>
 
 <script>
+import {GET_IMPORT_PROGRESS} from '@/api/api.index'
 export default {
   name: 'import-bookmark',
   data () {
@@ -47,7 +50,9 @@ export default {
         {color: '#5cb87a', percentage: 60},
         {color: '#1989fa', percentage: 80},
         {color: '#6f7ad3', percentage: 100}
-      ]
+      ],
+      progress: 0,
+      timer: null
     }
   },
   created () {
@@ -56,6 +61,27 @@ export default {
   methods: {
     submitUpload () {
       this.$refs.upload.submit()
+    },
+    uploadSuccess () {
+      // 定时获取进度条
+      clearInterval(this.timer)
+      const that = this
+      this.timer = setInterval(() => {
+        GET_IMPORT_PROGRESS().then(res => {
+          if (res.code === 200) {
+            if (res.data.total) {
+              that.progress = res.data.index / res.data.total
+            } else {
+              clearInterval(that.timer)
+            }
+            if (parseInt(that.progress) === 100) {
+              clearInterval(that.timer)
+            }
+          } else {
+            clearInterval(that.timer)
+          }
+        })
+      }, 2000)
     }
   }
 }
