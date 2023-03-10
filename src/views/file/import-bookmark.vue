@@ -10,9 +10,11 @@
       :limit="1"
       drag
       action="/api/bookmark/my-bookmark/import/bookmark"
+      :with-credentials="true"
       :headers="{access_token:token }"
       :data="config"
-      :on-success="uploadSuccess">
+      :on-success="uploadSuccess"
+      :on-error="uploadError">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       <div class="el-upload__tip" slot="tip">只能上传html文件，且不超过500kb</div>
@@ -63,6 +65,7 @@ export default {
       this.$refs.upload.submit()
     },
     uploadSuccess () {
+      this.$refs.upload.clearFiles()
       // 定时获取进度条
       clearInterval(this.timer)
       const that = this
@@ -71,8 +74,6 @@ export default {
           if (res.code === 200) {
             if (res.data.total) {
               that.progress = res.data.index / res.data.total
-            } else {
-              clearInterval(that.timer)
             }
             if (parseInt(that.progress) === 100) {
               clearInterval(that.timer)
@@ -82,6 +83,10 @@ export default {
           }
         })
       }, 2000)
+    },
+    uploadError () {
+      clearInterval(this.timer)
+      this.$refs.upload.clearFiles()
     }
   }
 }

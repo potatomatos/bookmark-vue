@@ -77,7 +77,7 @@
           </el-row>
           <el-divider></el-divider>
           <ul class="bookmark-list" v-if="bookmarks.length">
-            <li v-for="bookmark in bookmarks" :key="bookmark.nodeId" :class="{'active':(bookmark.nodeId===currentNode.nodeId)||(selectedList.includes(bookmark))}"
+            <li v-for="bookmark in bookmarks" :key="bookmark.nodeId" :class="{'active':(bookmark.nodeId===currentNode.nodeId)||(selectedCommand.selectedList.includes(bookmark))}"
                 @dblclick="bookmarkDbClick(bookmark)"
                 @click="bookmarkClick(bookmark)"
                 @contextmenu.prevent="onContextmenu($event,bookmark)">
@@ -190,7 +190,11 @@ export default {
       // 单击的行
       currentNode: {},
       // 多选行
-      selectedList: [],
+      selectedCommand: {
+        // 剪切标志
+        clipped: false,
+        selectedList: []
+      },
       newFolder: {
         folderName: '',
         parentId: null
@@ -270,13 +274,15 @@ export default {
     },
     bookmarkClick (bookmark) {
       if (this.pin) {
-        this.currentNode = {}
-        if (!this.selectedList.includes(bookmark)) {
-          this.selectedList.push(bookmark)
-        }
+        this.multipleSelect(bookmark)
       } else {
         this.currentNode = bookmark
-        this.selectedList = []
+      }
+    },
+    multipleSelect (bookmark) {
+      this.currentNode = {}
+      if (!this.selectedCommand.selectedList.includes(bookmark)) {
+        this.selectedCommand.selectedList.push(bookmark)
       }
     },
     handleCommand (command) {
@@ -334,6 +340,15 @@ export default {
             onClick: () => {
               this.folderTree()
               this.getBookmarks(this.cwd.nodeId)
+              this.selectedCommand.selectedList = []
+              this.selectedCommand.clipped = false
+            }
+          },
+          {
+            label: '剪切',
+            hidden: this.selectedCommand.selectedList.length === 0,
+            onClick: () => {
+              this.selectedCommand.clipped = true
             }
           },
           {
