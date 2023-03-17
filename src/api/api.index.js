@@ -132,6 +132,15 @@ export function UPDATE_FOLDER (data = {}) {
   })
 }
 
+export function MOVE (data = {}, pid) {
+  // 接口请求
+  return request({
+    url: '/api/bookmark/my-bookmark/move/' + pid,
+    method: 'post',
+    data
+  })
+}
+
 /**
  * 获取导入进度条
  * @returns {*}

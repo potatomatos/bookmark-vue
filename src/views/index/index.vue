@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import {FOLDERS_TREE, BOOKMARKS, REDIRECT, CREATE_FOLDER, UPDATE_FOLDER, BOOKMARK_DEL, FOLDER_DEL} from '@/api/api.index'
+import {FOLDERS_TREE, BOOKMARKS, REDIRECT, CREATE_FOLDER, UPDATE_FOLDER, BOOKMARK_DEL, FOLDER_DEL, MOVE} from '@/api/api.index'
 import {formatMsgTime} from '@/libs/util.common'
 import bookmarkNew from './bookmark-new'
 import bookmarkUpdate from './bookmark-update'
@@ -222,12 +222,12 @@ export default {
 
     // 多选事件
     window.addEventListener('keydown', code => {
-      if (code.keyCode === 16 && code.shiftKey) {
+      if (code.keyCode === 17 && code.ctrlKey) {
         this.pin = true
       }
     })
     window.addEventListener('keyup', code => {
-      if (code.keyCode === 16) {
+      if (code.keyCode === 17) {
         this.pin = false
       }
     })
@@ -328,10 +328,11 @@ export default {
      * @param event
      * @param bookmark
      */
-    onContextmenu (event, bookmark) {
+    onContextmenu: function (event, bookmark) {
       if (bookmark) {
         this.bookmarkClick(bookmark)
       }
+
       this.$contextmenu({
         items: [
           {
@@ -346,9 +347,31 @@ export default {
           },
           {
             label: '剪切',
-            hidden: this.selectedCommand.selectedList.length === 0,
+            hidden: this.selectedCommand.clipped,
             onClick: () => {
               this.selectedCommand.clipped = true
+            }
+          },
+          {
+            label: '粘贴',
+            hidden: !this.selectedCommand.clipped,
+            onClick: () => {
+              const postData = this.selectedCommand.selectedList.map(item => {
+                return {id: item.nodeId, type: item.type}
+              })
+              MOVE(postData, this.cwd.nodeId).then(res => {
+                if (res.code === 200) {
+                  this.$notify.success('操作成功')
+                  this.selectedCommand.clipped = false
+                  this.selectedCommand.selectedList = []
+                  this.getBookmarks(this.cwd.nodeId)
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: res.msg
+                  })
+                }
+              })
             }
           },
           {

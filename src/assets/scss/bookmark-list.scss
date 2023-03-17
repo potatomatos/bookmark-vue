@@ -5,6 +5,7 @@
     cursor: pointer;
     zoom: 1;
     margin-bottom: 5px;
+    user-select: none;
     &:after{
       content: "";
       display: block;
