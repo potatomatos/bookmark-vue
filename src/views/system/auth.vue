@@ -5,7 +5,8 @@
 <script>
 import { GET_ACCESS_TOKEN } from '@/api/api.sys'
 import { getQueryString } from '@/libs/util.common'
-import { Loading } from 'element-ui'
+import { Loading, Message } from 'element-ui'
+import router from '@/router'
 
 export default {
   name: 'auth',
@@ -29,11 +30,21 @@ export default {
     getAccessToken () {
       GET_ACCESS_TOKEN({ code: this.code }).then(res => {
         console.log('token:', res)
+        this.loading.close()
         if (res.code === 200) {
           // 跳转主页
-          this.loading.close()
           localStorage.setItem('token', res.data.access_token)
+          // TODO 获取用户信息
           this.$router.replace('/')
+        } else {
+          Message({
+            message: '认证失败，请重新登录',
+            type: 'error',
+            duration: 5 * 1000
+          })
+          setTimeout(() => {
+            router.push({ name: 'login' })
+          }, 5000)
         }
       })
     }

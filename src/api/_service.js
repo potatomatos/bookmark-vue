@@ -71,9 +71,7 @@ function toLogin (msg) {
     type: 'error',
     duration: 5 * 1000
   })
-  setTimeout(function () {
-    router.push({ name: 'login' })
-  }, 5 * 1000)
+  router.push({ name: 'login' })
 }
 /**
  * @description 创建请求方法
