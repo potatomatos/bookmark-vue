@@ -142,18 +142,6 @@ export function MOVE (data = {}, pid) {
 }
 
 /**
- * 获取导入进度条
- * @returns {*}
- * @constructor
- */
-export function GET_IMPORT_PROGRESS () {
-  return request({
-    url: '/api/bookmark/my-bookmark/import/progress',
-    method: 'get'
-  })
-}
-
-/**
  * 链接访问
  * @param params
  * @returns {*}

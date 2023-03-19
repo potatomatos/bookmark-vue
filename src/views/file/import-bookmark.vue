@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import {GET_IMPORT_PROGRESS} from '@/api/api.index'
 export default {
   name: 'import-bookmark',
   data () {
@@ -53,8 +52,7 @@ export default {
         {color: '#1989fa', percentage: 80},
         {color: '#6f7ad3', percentage: 100}
       ],
-      progress: 0,
-      timer: null
+      progress: 0
     }
   },
   created () {
@@ -66,26 +64,8 @@ export default {
     },
     uploadSuccess () {
       this.$refs.upload.clearFiles()
-      // 定时获取进度条
-      clearInterval(this.timer)
-      const that = this
-      this.timer = setInterval(() => {
-        GET_IMPORT_PROGRESS().then(res => {
-          if (res.code === 200) {
-            if (res.data.total) {
-              that.progress = res.data.index / res.data.total
-            }
-            if (parseInt(that.progress) === 100) {
-              clearInterval(that.timer)
-            }
-          } else {
-            clearInterval(that.timer)
-          }
-        })
-      }, 2000)
     },
     uploadError () {
-      clearInterval(this.timer)
       this.$refs.upload.clearFiles()
     }
   }
