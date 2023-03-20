@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import webSocket from '@/libs/util.websocket'
 export default {
   name: 'import-bookmark',
   data () {
@@ -57,6 +58,13 @@ export default {
   },
   created () {
     this.token = localStorage.getItem('token')
+    webSocket.connect('127.0.0.1', '9203', '/websocket')
+    window.onbeforeunload = function () {
+      webSocket.close()
+    }
+  },
+  destroyed () {
+    webSocket.close()
   },
   methods: {
     submitUpload () {

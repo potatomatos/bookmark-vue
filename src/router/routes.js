@@ -34,7 +34,7 @@ const frameIn = [
         meta: {
           title: '导入书签',
           auth: true,
-          keepAlive: true
+          keepAlive: false
         },
         component: () => import('@/views/file/import-bookmark')
       }
