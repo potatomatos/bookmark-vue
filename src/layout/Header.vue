@@ -136,6 +136,8 @@ export default {
     border: 1px #f00 solid;
     width: 100%;
     background: $headerBg;
+    position: absolute;
+    z-index: 9999;
   }
   .header .dropdown li {
     height: 40px;

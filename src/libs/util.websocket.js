@@ -10,7 +10,7 @@ const webSocket = {
   maxReconnectCount: 20,
   // 心跳检测
   heartCheck: {
-    timeout: 10, // 10秒发一次心跳
+    timeout: 10000, // 10秒发一次心跳
     timeoutObj: null,
     serverTimeoutObj: null,
     reset: function () {
@@ -83,9 +83,10 @@ const webSocket = {
   },
   // 关闭连接
   close: function () {
-    if (this.socket) {
+    if (this.socket && this.socket.readyState === 3) {
       this.socket.close()
     }
+    this.listener = []
   },
   // 连接成功回调
   onopen: function () {
@@ -119,7 +120,9 @@ const webSocket = {
   },
   // 添加监听器
   listen: function (handler) {
-    this.listener.push(handler)
+    if (!this.listener.includes(handler)) {
+      this.listener.push(handler)
+    }
     console.log('添加监听器,监听列表：', this.listener)
   }
 }

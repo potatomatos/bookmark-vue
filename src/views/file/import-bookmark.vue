@@ -26,6 +26,7 @@
       </el-form-item>
       <el-form-item v-if="progress">
         <el-progress :text-inside="true" :stroke-width="24" :percentage="progress" :color="customColors"></el-progress>
+        <div style="height: 50px;"><p style="word-wrap:break-word;white-space:pre-wrap;font-size: 12px;line-height: 16px">{{title}}</p></div>
       </el-form-item>
       <el-form-item>
         <el-button size="small" type="success" @click="submitUpload" :disabled="progress!==0">导入</el-button>
@@ -53,12 +54,30 @@ export default {
         {color: '#1989fa', percentage: 80},
         {color: '#6f7ad3', percentage: 100}
       ],
-      progress: 0
+      progress: 0,
+      title: ''
     }
   },
   created () {
     this.token = localStorage.getItem('token')
-    webSocket.connect('127.0.0.1', '9203', '/websocket')
+  },
+  mounted () {
+    webSocket.connect('127.0.0.1', '8085', '/bookmark/websocket')
+    const _this = this
+    webSocket.listen({
+      onmessage: function (data) {
+        if (data.data) {
+          const message = data.data
+          if (message.msgType === 'uploadBookmark') {
+            _this.progress = parseInt((message.msg.progress / message.msg.total) * 100)
+            _this.title = message.msg.title
+            if (_this.progress === 100) {
+              _this.title = ''
+            }
+          }
+        }
+      }
+    })
     window.onbeforeunload = function () {
       webSocket.close()
     }

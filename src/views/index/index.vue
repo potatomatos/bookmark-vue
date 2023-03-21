@@ -62,7 +62,7 @@
               </el-row>
             </el-col>
             <el-col :span="6" class="word-height">
-              <el-input placeholder="搜索" size="mini" v-model="params.keyword" @change="getBookmarks(cwd.nodeId)"></el-input>
+              <el-input placeholder="搜索" size="mini" v-model="params.keyword" @keyup.enter.native="getBookmarks(cwd.nodeId)"></el-input>
             </el-col>
           </el-row>
           <el-row class="search-bar">
