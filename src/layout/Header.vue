@@ -17,12 +17,13 @@
             v-for="(item, index) in rightMenuList" :key="index">
           {{ item.titleName }}
         </li>
-        <li id="bars" @click="dropDownShow = !dropDownShow">
-<!--          <icon name="bars" size="lg"></icon>-->
-          <el-image
-            style="width: 100px; height: 100px"
+        <li>
+          <el-image class="avatar"
             :src="info.avatar"
             fit="cover"></el-image>
+        </li>
+        <li id="bars" @click="dropDownShow = !dropDownShow">
+          <icon name="bars" size="lg"></icon>
         </li>
       </ul>
     </div>
@@ -46,7 +47,7 @@
 import {LOGOUT} from '@/api/api.sys'
 import {Message, MessageBox} from 'element-ui'
 import cookies from '@/libs/util.cookies'
-import {mapState} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 
 export default {
   name: 'Header',
@@ -58,12 +59,15 @@ export default {
         { activeName: 'Recent', titleName: '最近访问', activeUrl: '/recent' },
         { activeName: 'Import', titleName: '导入书签', activeUrl: '/import' }
       ],
-      rightMenuList: [ // 右侧菜单内容
-        {activeName: 'Username', titleName: this.info.realName},
-        {activeName: 'Logout', titleName: '退出登录', action: this.logout}
-      ],
+      rightMenuList: [], // 右侧菜单内容
       activeRoute: ''
     }
+  },
+  created () {
+    console.log('userInfo', this.info)
+    this.rightMenuList = [
+      {activeName: 'Logout', titleName: '退出登录', action: this.logout}
+    ]
   },
   computed: {
     ...mapState('common/user', [
@@ -71,14 +75,18 @@ export default {
     ])
   },
   methods: {
+    ...mapActions('common/user', [
+      'set'
+    ]),
     logout () {
       MessageBox.confirm('确定要注销当前用户吗', '注销用户', { type: 'warning' })
         .then(() => {
-          cookies.remove('uid')
           LOGOUT().then(res => {
             if (res.code === 200) {
               // 清除token
               localStorage.removeItem('token')
+              cookies.remove('uid')
+              this.set({})
               this.$router.push({ name: 'login' })
             } else {
               Message({
@@ -89,7 +97,7 @@ export default {
             }
           })
         }).catch(() => {
-          Message({ message: '取消注销操作' })
+          console.log('取消登录')
         })
     },
     toActiveMenuItem (item) { // 激活导航菜单
@@ -132,7 +140,7 @@ export default {
     float: left;
   }
   .header .container .container-left-ul li {
-    height: 100%;
+    height: $header-height;
     padding: 0 2px;
     line-height: $header-height;
     width: $header-li-width;
@@ -156,11 +164,22 @@ export default {
     float: right;
   }
   .header .container .container-right-ul li {
-    height: 100%;
+    height: $header-height;
     line-height: $header-height;
     width: $header-li-width;
-    display: inline-block;
+    float: left;
     text-align: center;
+    .avatar{
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      vertical-align: middle !important;
+      transition: transform 0.5s;
+      &:hover {
+        transform: scale(1.1, 1.1) rotate(360deg);
+      }
+    }
   }
   .header .container .container-right-ul .container-right-li:hover {
     color: $menu-active-color;
@@ -201,6 +220,9 @@ export default {
     }
     .container-right-li {
       display: none !important;
+    }
+    .avatar{
+      display: none;
     }
   }
   @media screen and (min-width: 768px) {

@@ -3,7 +3,7 @@ import LocalStorage from 'lowdb/adapters/LocalStorage'
 import cookies from './util.cookies'
 import {cloneDeep} from 'lodash'
 
-const adapter = new LocalStorage('cloudDisk')
+const adapter = new LocalStorage('bookmark')
 const db = low(adapter)
 
 db

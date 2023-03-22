@@ -11,7 +11,6 @@ export default {
      * @param {*} info info
      */
     async set ({ state, dispatch }, info) {
-      debugger
       // store 赋值
       state.info = info
       // 持久化

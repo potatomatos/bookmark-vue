@@ -90,9 +90,7 @@ export default {
         if (res.code === 200) {
           // 保存用户信息
           cookies.set('uid', res.data.user.id)
-          console.log(this.set)
-          debugger
-          this.set({ name: res.data.user.realName, ...res.data.user }, { root: true })
+          this.set({ name: res.data.user.realName, ...res.data.user })
           console.log('登录成功,跳转认证地址')
           window.location = '/api/oauth-server' + res.data.authorizeUrl
         } else {

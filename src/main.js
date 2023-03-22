@@ -34,5 +34,8 @@ new Vue({
   router,
   store,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  mounted () {
+    this.$store.dispatch('common/user/load')
+  }
 })
