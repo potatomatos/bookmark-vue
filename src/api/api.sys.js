@@ -40,3 +40,17 @@ export function LOGOUT () {
     }
   })
 }
+
+/**
+ * @description 当前用户信息
+ */
+export function USER_INFO () {
+  // 接口请求
+  return request({
+    url: '/api/oauth-server/currentUser',
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}

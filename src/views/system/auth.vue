@@ -31,10 +31,9 @@ export default {
       GET_ACCESS_TOKEN({ code: this.code }).then(res => {
         console.log('token:', res)
         this.loading.close()
-        if (res.code === 200) {
+        if (res.code === 200 && res.data) {
           // 跳转主页
           localStorage.setItem('token', res.data.access_token)
-          // TODO 获取用户信息
           this.$router.replace('/')
         } else {
           Message({

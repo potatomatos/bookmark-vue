@@ -18,7 +18,11 @@
           {{ item.titleName }}
         </li>
         <li id="bars" @click="dropDownShow = !dropDownShow">
-          <icon name="bars" size="lg"></icon>
+<!--          <icon name="bars" size="lg"></icon>-->
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="info.avatar"
+            fit="cover"></el-image>
         </li>
       </ul>
     </div>
@@ -39,6 +43,11 @@
 </template>
 
 <script>
+import {LOGOUT} from '@/api/api.sys'
+import {Message, MessageBox} from 'element-ui'
+import cookies from '@/libs/util.cookies'
+import {mapState} from 'vuex'
+
 export default {
   name: 'Header',
   data () {
@@ -50,14 +59,45 @@ export default {
         { activeName: 'Import', titleName: '导入书签', activeUrl: '/import' }
       ],
       rightMenuList: [ // 右侧菜单内容
-        { activeName: 'Support', titleName: '赞助', activeUrl: '/support' }
+        {activeName: 'Username', titleName: this.info.realName},
+        {activeName: 'Logout', titleName: '退出登录', action: this.logout}
       ],
       activeRoute: ''
     }
   },
+  computed: {
+    ...mapState('common/user', [
+      'info'
+    ])
+  },
   methods: {
+    logout () {
+      MessageBox.confirm('确定要注销当前用户吗', '注销用户', { type: 'warning' })
+        .then(() => {
+          cookies.remove('uid')
+          LOGOUT().then(res => {
+            if (res.code === 200) {
+              // 清除token
+              localStorage.removeItem('token')
+              this.$router.push({ name: 'login' })
+            } else {
+              Message({
+                message: '退出失败',
+                type: 'error',
+                duration: 5 * 1000
+              })
+            }
+          })
+        }).catch(() => {
+          Message({ message: '取消注销操作' })
+        })
+    },
     toActiveMenuItem (item) { // 激活导航菜单
-      this.$router.push(item.activeUrl)
+      if (item.activeUrl) {
+        this.$router.push(item.activeUrl)
+      } else if (item.action) {
+        item.action()
+      }
       this.dropDownShow = false
     }
   },

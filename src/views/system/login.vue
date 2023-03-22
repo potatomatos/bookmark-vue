@@ -21,6 +21,8 @@
 
 <script>
 import {LOGIN} from '@/api/api.sys'
+import {mapActions} from 'vuex'
+import cookies from '@/libs/util.cookies'
 export default {
   data () {
     return {
@@ -39,6 +41,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions('common/user', [
+      'set'
+    ]),
     /**
      * @description 刷新验证码
      */
@@ -83,6 +88,11 @@ export default {
       LOGIN(this.formLogin).then(res => {
         this.doing = false
         if (res.code === 200) {
+          // 保存用户信息
+          cookies.set('uid', res.data.user.id)
+          console.log(this.set)
+          debugger
+          this.set({ name: res.data.user.realName, ...res.data.user }, { root: true })
           console.log('登录成功,跳转认证地址')
           window.location = '/api/oauth-server' + res.data.authorizeUrl
         } else {
