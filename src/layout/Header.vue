@@ -5,7 +5,7 @@
     <div class="container">
       <ul class="container-left-ul">
         <li>
-          <img id="icon" src="@/assets/img/icon.png"/>
+          <img id="icon" src="@/assets/img/128.png"/>
         </li>
         <li :class="activeRoute === item.activeUrl ? 'menu-item-active' : 'container-left-li'" @click="toActiveMenuItem(item)"
             v-for="(item, index) in leftMenuList" :key="index">
