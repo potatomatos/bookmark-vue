@@ -33,6 +33,8 @@ function createService () {
         case 6002: toLogin(response.data.msg); break
         // 登录信息已过期
         case 6003: toLogin(response.data.msg); break
+        // token非法
+        case 6005: toLogin(response.data.msg); break
         default: return response.data
       }
     },
@@ -80,6 +82,12 @@ function toLogin (msg) {
 function createRequest (service) {
   return function (config) {
     const token = localStorage.getItem('token')
+    let systemSettings = localStorage.getItem('systemSettings')
+    let baseURL = '/'
+    if (systemSettings) {
+      systemSettings = JSON.parse(systemSettings)
+      baseURL = systemSettings.baseURL
+    }
     const configDefault = {
       headers: {
         access_token: token,
@@ -87,7 +95,7 @@ function createRequest (service) {
         'x-requested-with': 'XMLHttpRequest'
       },
       timeout: 10000,
-      baseURL: '/',
+      baseURL: baseURL,
       data: {}
     }
     const option = merge(configDefault, config)
