@@ -34,7 +34,7 @@ export default {
         if (res.code === 200 && res.data) {
           // 跳转主页
           localStorage.setItem('token', res.data.access_token)
-          this.$router.replace('/')
+          this.$router.push({ name: 'index' })
         } else {
           Message({
             message: '认证失败，请重新登录',

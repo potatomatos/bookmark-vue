@@ -155,3 +155,21 @@ export function REDIRECT (params = {}) {
     params
   })
 }
+
+/**
+ * 上传文件
+ * @param data
+ * @returns {*}
+ * @constructor
+ */
+export function IMPORT_BOOKMARK (data) {
+  return request({
+    url: '/api/bookmark/my-bookmark/import/bookmark',
+    method: 'post',
+    data,
+    headers: {
+      'content-type': 'multipart/form-data'
+    },
+    timeout: 600000
+  })
+}

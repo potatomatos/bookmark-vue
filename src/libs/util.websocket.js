@@ -34,8 +34,9 @@ const webSocket = {
   connect: function (hostname, port, path) {
     if (!this.socket || this.socket.readyState === 3) {
       try {
-        if (!this.port && location.port) {
-          this.port = location.port
+        this.port = location.port
+        if (port) {
+          this.port = port
         }
         let url
         if (hostname) {
@@ -46,7 +47,6 @@ const webSocket = {
           this.hostname = location.hostname
         }
         if (this.port) {
-          this.port = port
           url += ':' + this.port
         }
         if (path) {

@@ -26,19 +26,23 @@ import cookies from '@/libs/util.cookies'
 export default {
   data () {
     return {
-      captchaUrl: '/api/oauth-server/captcha?code=',
+      captchaUrlTmp: '/api/oauth-server/captcha',
+      captchaUrl: '',
       errorMsg: '',
       doing: false,
       // 表单
       formLogin: {
-        username: 'mengjinyuan',
-        password: '123123',
+        username: '',
+        password: '',
         captcha: '',
         type: 'PASSWORD',
         clientId: 'bookmark',
-        redirectUri: 'http://localhost:8082/auth'
+        redirectUri: 'http://192.168.1.101:8004/auth'
       }
     }
+  },
+  created () {
+    this.captchaUrl = this.captchaUrlTmp
   },
   methods: {
     ...mapActions('common/user', [
@@ -50,7 +54,7 @@ export default {
     refreshCaptcha () {
       // 生成一个随机数（防止缓存）
       const num = Math.ceil(Math.random() * 1000)
-      this.captchaUrl = '/api/oauth-server/captcha?code=' + num
+      this.captchaUrl = [this.captchaUrlTmp, 'code=' + num].join('?')
       this.formLogin.captcha = ''
     },
     /**
@@ -92,7 +96,14 @@ export default {
           cookies.set('uid', res.data.user.id)
           this.set({ name: res.data.user.realName, ...res.data.user })
           console.log('登录成功,跳转认证地址')
-          window.location = '/api/oauth-server' + res.data.authorizeUrl
+          this.$notify({
+            title: '登录成功，开始认证',
+            message: res.msg,
+            type: 'success'
+          })
+          setTimeout(function () {
+            window.location = '/api/oauth-server' + res.data.authorizeUrl
+          }, 1000)
         } else {
           this.refreshCaptcha()
           this.$notify({

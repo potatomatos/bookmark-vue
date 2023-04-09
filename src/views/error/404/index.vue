@@ -1,18 +1,14 @@
 <template>
   <div class="page">
     <p class="page_title">404 请求地址出错</p>
-    <button class="d2-mt" @click="$router.replace({ path: '/' })">
-      返回首页
-    </button>
+    <el-button type="text" @click="$router.replace({ path: '/' })">返回首页</el-button>
   </div>
 </template>
 <script>
-import $ from 'jquery'
 
 export default {
   name: 'leftArea',
   mounted () {
-    $('.d2-mt').button()
   }
 }
 </script>

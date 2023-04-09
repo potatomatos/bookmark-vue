@@ -9,12 +9,10 @@
       accept="text/html"
       :limit="1"
       drag
-      action="/api/bookmark/my-bookmark/import/bookmark"
+      action="string"
       :with-credentials="true"
-      :headers="{access_token:token }"
-      :data="config"
-      :on-success="uploadSuccess"
-      :on-error="uploadError">
+      :before-upload="beforeUpload"
+      :http-request="importBookmark">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       <div class="el-upload__tip" slot="tip">只能上传html文件，且不超过500kb</div>
@@ -37,6 +35,7 @@
 
 <script>
 import webSocket from '@/libs/util.websocket'
+import {IMPORT_BOOKMARK} from '@/api/api.index'
 export default {
   name: 'import-bookmark',
   data () {
@@ -62,7 +61,7 @@ export default {
     this.token = localStorage.getItem('token')
   },
   mounted () {
-    webSocket.connect('127.0.0.1', '8085', '/bookmark/websocket')
+    webSocket.connect(location.hostname, location.port, '/api/bookmark/websocket')
     const _this = this
     webSocket.listen({
       onmessage: function (data) {
@@ -86,14 +85,32 @@ export default {
     webSocket.close()
   },
   methods: {
+    beforeUpload (file) {
+      const isHtml = file.type === 'text/html'
+      if (!isHtml) {
+        this.$message.error('只能导入html文件!')
+      }
+      return isHtml
+    },
+    importBookmark (file) {
+      const params = new FormData()
+      params.append('file', file.file)
+      params.append('clearFlag', this.config.clearFlag)
+      params.append('newFolderFlag', this.config.newFolderFlag)
+      IMPORT_BOOKMARK(params).then((res) => {
+        this.$refs.upload.clearFiles()
+        if (res.code === 200) {
+          this.$message.success('上传成功')
+        } else {
+          this.$message.success(res.msg)
+        }
+      }).catch(() => {
+        this.$message.error('上传失败!')
+        this.$refs.upload.clearFiles()
+      })
+    },
     submitUpload () {
       this.$refs.upload.submit()
-    },
-    uploadSuccess () {
-      this.$refs.upload.clearFiles()
-    },
-    uploadError () {
-      this.$refs.upload.clearFiles()
     }
   }
 }

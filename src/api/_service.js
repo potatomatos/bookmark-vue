@@ -82,12 +82,6 @@ function toLogin (msg) {
 function createRequest (service) {
   return function (config) {
     const token = localStorage.getItem('token')
-    let systemSettings = localStorage.getItem('systemSettings')
-    let baseURL = '/'
-    if (systemSettings) {
-      systemSettings = JSON.parse(systemSettings)
-      baseURL = systemSettings.baseURL
-    }
     const configDefault = {
       headers: {
         access_token: token,
@@ -95,7 +89,7 @@ function createRequest (service) {
         'x-requested-with': 'XMLHttpRequest'
       },
       timeout: 10000,
-      baseURL: baseURL,
+      baseURL: '/',
       data: {}
     }
     const option = merge(configDefault, config)
