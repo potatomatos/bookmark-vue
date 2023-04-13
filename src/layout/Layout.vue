@@ -49,7 +49,7 @@ export default {
   height: 100%;
 }
 #mainContent {
-  background-image: url("../assets/img/background.png");
+  background-image: url("/static/img/background.png");
   background-repeat: repeat;
   overflow-y: auto;
   flex: 1;

@@ -13,6 +13,6 @@ export default {
   header {
     width: 100%;
     height: $banner-height;
-    background: url("../assets/img/header-background.png") repeat-x;
+    background: url("/static/img/header-background.png") repeat-x;
   }
 </style>
