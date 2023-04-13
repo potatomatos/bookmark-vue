@@ -28,7 +28,11 @@ export default {
   },
   methods: {
     getAccessToken () {
-      GET_ACCESS_TOKEN({ code: this.code }).then(res => {
+      GET_ACCESS_TOKEN({
+        code: this.code,
+        clientId: process.env.VUE_APP_CLIENT_ID,
+        redirectUri: process.env.VUE_APP_REDIRECT_URI
+      }).then(res => {
         console.log('token:', res)
         this.loading.close()
         if (res.code === 200 && res.data) {

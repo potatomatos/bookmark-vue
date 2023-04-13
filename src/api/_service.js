@@ -29,6 +29,8 @@ function createService () {
         case 5004: toLogin(response.data.msg); break
         // 账号锁定
         case 5005: toLogin(response.data.msg); break
+        // 未登录
+        case 6001: toLogin(response.data.msg); break
         // token不存在
         case 6002: toLogin(response.data.msg); break
         // 登录信息已过期

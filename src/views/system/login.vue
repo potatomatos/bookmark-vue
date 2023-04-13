@@ -36,8 +36,8 @@ export default {
         password: '',
         captcha: '',
         type: 'PASSWORD',
-        clientId: 'bookmark',
-        redirectUri: 'http://192.168.1.101:8004/auth'
+        clientId: process.env.VUE_APP_CLIENT_ID,
+        redirectUri: process.env.VUE_APP_REDIRECT_URI
       }
     }
   },
