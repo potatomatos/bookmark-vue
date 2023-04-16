@@ -36,8 +36,8 @@ export default {
         password: '',
         captcha: '',
         type: 'PASSWORD',
-        clientId: process.env.VUE_APP_CLIENT_ID,
-        redirectUri: process.env.VUE_APP_REDIRECT_URI
+        clientId: process.env.CLIENT_ID,
+        redirectUri: process.env.REDIRECT_URI
       }
     }
   },
@@ -94,6 +94,7 @@ export default {
         if (res.code === 200) {
           // 保存用户信息
           cookies.set('uid', res.data.user.id)
+
           this.set({ name: res.data.user.realName, ...res.data.user })
           console.log('登录成功,跳转认证地址')
           this.$notify({

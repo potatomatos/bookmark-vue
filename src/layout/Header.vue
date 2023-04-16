@@ -86,6 +86,8 @@ export default {
               // 清除token
               localStorage.removeItem('token')
               cookies.remove('uid')
+              cookies.remove('token')
+              cookies.remove('user')
               this.set({})
               this.$router.push({ name: 'login' })
             } else {

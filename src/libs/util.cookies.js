@@ -14,7 +14,7 @@ cookies.set = function (name = 'default', value = '', cookieSetting = {}) {
     expires: 1
   }
   merge(currentCookieSetting, cookieSetting)
-  Cookies.set(`bookmark-${process.env.VUE_APP_VERSION}-${name}`, value, currentCookieSetting)
+  Cookies.set(`${process.env.APP_NAME}-${name}`, value, currentCookieSetting)
 }
 
 /**
@@ -22,7 +22,7 @@ cookies.set = function (name = 'default', value = '', cookieSetting = {}) {
  * @param {String} name cookie name
  */
 cookies.get = function (name = 'default') {
-  return Cookies.get(`bookmark-${process.env.VUE_APP_VERSION}-${name}`)
+  return Cookies.get(`${process.env.APP_NAME}-${name}`)
 }
 
 /**
@@ -37,7 +37,7 @@ cookies.getAll = function () {
  * @param {String} name cookie name
  */
 cookies.remove = function (name = 'default') {
-  return Cookies.remove(`bookmark-${process.env.VUE_APP_VERSION}-${name}`)
+  return Cookies.remove(`${process.env.APP_NAME}-${name}`)
 }
 
 export default cookies
