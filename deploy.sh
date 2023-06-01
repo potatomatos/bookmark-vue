@@ -1,4 +1,5 @@
 echo "开始打包项目..."
+git pull
 node -v
 npm -v
 npm config set registry https://registry.npm.taobao.org
