@@ -2,10 +2,9 @@ echo "开始打包项目..."
 git pull
 node -v
 npm -v
-npm config set registry https://registry.npm.taobao.org
-npm config get registry
-npm install
-npm run build
+yarn -v
+yarn install
+yarn build
 echo "开始构建镜像..."
 echo "停止容器"
 docker stop bookmark-vue || true
