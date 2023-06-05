@@ -15,5 +15,5 @@ sudo docker rmi bookmark-vue || true
 echo "打包镜像"
 sudo docker build -t bookmark-vue .
 echo "镜像打包成功！开始运行容器"
-sudo docker run -d -p 8003:80 --name bookmark-vue bookmark-vue
+sudo docker run -d -p 9003:80 --name bookmark-vue bookmark-vue
 echo "容器已启动！"
