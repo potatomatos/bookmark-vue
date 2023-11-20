@@ -1,5 +1,8 @@
-echo "开始打包项目..."
+echo "开始拉取项目..."
+git config remote.origin.url https://potatomatos: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@mirror.ghproxy.com/https://github.com/potatomatos/bookmark-vue.git
+git --version
 git pull
+echo "开始打包项目..."
 node -v
 npm -v
 yarn -v
