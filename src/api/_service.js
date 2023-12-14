@@ -70,11 +70,6 @@ function stringify (data, format) {
 }
 
 function toLogin (msg) {
-  Message({
-    message: msg,
-    type: 'error',
-    duration: 5 * 1000
-  })
   router.push({ name: 'login' })
 }
 /**
