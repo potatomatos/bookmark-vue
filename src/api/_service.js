@@ -54,7 +54,7 @@ function createService () {
         case 503: error.message = '服务不可用'; break
         case 504: error.message = '网关超时'; break
         case 505: error.message = 'HTTP版本不受支持'; break
-        default: break
+        default: error.message = '网络错误'; break
       }
       throw error
     }
@@ -70,11 +70,6 @@ function stringify (data, format) {
 }
 
 function toLogin (msg) {
-  Message({
-    message: msg,
-    type: 'error',
-    duration: 5 * 1000
-  })
   router.push({ name: 'login' })
 }
 /**
