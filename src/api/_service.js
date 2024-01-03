@@ -1,4 +1,3 @@
-import { Message } from 'element-ui'
 import axios from 'axios'
 import { get, isEmpty, merge } from 'lodash'
 import qs from 'qs'
