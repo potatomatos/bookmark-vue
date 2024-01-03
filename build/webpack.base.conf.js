@@ -77,8 +77,12 @@ module.exports = {
         }
       },
       {        
-        test: /\.(eot|ttf|woff|woff2)$/,
-        loader: 'file-loader'
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&=application/font-woff'
+      },
+      {        
+        test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader'
       }
     ]
   },
