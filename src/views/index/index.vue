@@ -21,7 +21,7 @@
                    :expand-on-click-node="false"
                    @node-click="handleNodeClick">
             <div slot-scope="{ node, data }" class="tree-icon">
-              <i class="el-icon-collection-tag"></i>
+              <i class="el-icon-folder"></i>
               <span>{{ node.label}}</span>
             </div>
           </el-tree>
