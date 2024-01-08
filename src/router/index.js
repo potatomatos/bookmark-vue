@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 // 路由数据
 import routes from './routes'
 
+import {toLogin} from '@/api/_service'
+
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -31,9 +33,7 @@ router.beforeEach(async (to, from, next) => {
     } else {
       // 没有登录的时候跳转到登录界面
       // 携带上登陆成功之后需要跳转的页面完整路径
-      next({
-        name: 'login'
-      })
+      toLogin()
       NProgress.done()
     }
   } else {

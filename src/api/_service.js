@@ -1,8 +1,6 @@
-import { Message } from 'element-ui'
 import axios from 'axios'
 import { get, isEmpty, merge } from 'lodash'
 import qs from 'qs'
-import router from '@/router'
 
 /**
  * @description 创建请求实例
@@ -69,8 +67,8 @@ function stringify (data, format) {
   return qs.stringify(data, { allowDots: true, encode: false })
 }
 
-function toLogin (msg) {
-  router.push({ name: 'login' })
+export function toLogin (msg) {
+  window.location.href = process.env.LOGIN_URL + '?clientId=' + process.env.CLIENT_ID + '&redirect=' + process.env.REDIRECT_URI
 }
 /**
  * @description 创建请求方法

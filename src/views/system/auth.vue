@@ -3,11 +3,12 @@
 </template>
 
 <script>
-import { GET_ACCESS_TOKEN } from '@/api/api.sys'
+import { GET_ACCESS_TOKEN, USER_INFO } from '@/api/api.sys'
 import { getQueryString } from '@/libs/util.common'
 import cookies from '@/libs/util.cookies'
 import { Loading, Message } from 'element-ui'
 import router from '@/router'
+import {mapActions} from 'vuex'
 
 export default {
   name: 'auth',
@@ -28,6 +29,9 @@ export default {
     this.getAccessToken()
   },
   methods: {
+    ...mapActions('common/user', [
+      'set'
+    ]),
     getAccessToken () {
       GET_ACCESS_TOKEN({
         code: this.code,
@@ -40,7 +44,13 @@ export default {
           // 跳转主页
           localStorage.setItem('token', res.data.access_token)
           cookies.set('token', res.data.access_token)
-          this.$router.push({ name: 'index' })
+          USER_INFO().then(res => {
+            if (res.code === 200 && res.data) {
+              cookies.set('uid', res.data.id)
+              this.set({ name: res.data.realName, ...res.data })
+              this.$router.push({ name: 'index' })
+            }
+          })
         } else {
           Message({
             message: '认证失败，请重新登录',
