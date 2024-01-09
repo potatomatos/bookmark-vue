@@ -61,6 +61,14 @@ const frameOut = [
       auth: false
     },
     component: () => import('@/views/system/auth')
+  },
+  {
+    path: '/success',
+    name: 'success',
+    meta: {
+      auth: false
+    },
+    component: () => import('@/views/system/success')
   }
 ]
 /**
