@@ -48,6 +48,7 @@ import {LOGOUT} from '@/api/api.sys'
 import {Message, MessageBox} from 'element-ui'
 import cookies from '@/libs/util.cookies'
 import {mapActions, mapState} from 'vuex'
+import {toLogin} from '@/api/_service'
 
 export default {
   name: 'Header',
@@ -89,7 +90,7 @@ export default {
               cookies.remove('token')
               cookies.remove('user')
               this.set({})
-              this.$router.push({ name: 'login' })
+              toLogin()
             } else {
               Message({
                 message: '退出失败',
