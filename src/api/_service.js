@@ -79,7 +79,7 @@ function createRequest (service) {
     const token = localStorage.getItem('token')
     const configDefault = {
       headers: {
-        access_token: token,
+        Authorization: token,
         'Content-Type': get(config, 'headers.Content-Type', 'application/json'),
         'x-requested-with': 'XMLHttpRequest'
       },
