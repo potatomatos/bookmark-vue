@@ -22,6 +22,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 弹框组件
 import layer from 'vue-pubilc-layer'
 
+import {getQueryString} from '@/libs/util.common'
+import {mapActions} from 'vuex'
+import {USER_INFO} from './api/api.sys'
+import cookies from './libs/util.cookies'
+
 Vue.use(Contextmenu)
 Vue.use(ElementUI)
 Vue.use(layer)
@@ -33,9 +38,33 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {App},
   template: '<App/>',
+  data () {
+    return {
+      accessToken: null
+    }
+  },
+  created () {
+    this.accessToken = getQueryString('accessToken')
+  },
+  methods: {
+    ...mapActions('common/user', [
+      'set'
+    ])
+  },
   mounted () {
-    this.$store.dispatch('common/user/load')
+    if (this.accessToken) {
+      localStorage.setItem('token', this.accessToken)
+      USER_INFO().then(res => {
+        if (res.code === 200 && res.data) {
+          cookies.set('uid', res.data.id)
+          this.set({name: res.data.realName, ...res.data})
+          this.$store.dispatch('common/user/load')
+        }
+      })
+    } else {
+      this.$store.dispatch('common/user/load')
+    }
   }
 })

@@ -45,32 +45,8 @@ const frameIn = [
 /**
  * 在主框架之外显示
  */
-const frameOut = [
-  {
-    path: '/login',
-    name: 'login',
-    meta: {
-      auth: false
-    },
-    component: () => import('@/views/system/login')
-  },
-  {
-    path: '/auth',
-    name: 'auth',
-    meta: {
-      auth: false
-    },
-    component: () => import('@/views/system/auth')
-  },
-  {
-    path: '/success',
-    name: 'success',
-    meta: {
-      auth: false
-    },
-    component: () => import('@/views/system/success')
-  }
-]
+const frameOut = []
+
 /**
  * 错误页面
  */
