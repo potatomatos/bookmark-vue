@@ -3,7 +3,7 @@ setlocal
 
 :: 设置项目的基本信息
 set REPO_URL=https://potatomatos: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@mirror.ghproxy.com/https://github.com/potatomatos/bookmark-vue.git
-set PROJECT_DIR=bookmark-vue
+set PROJECT_DIR=C:\workspace\build\bookmark-vue\code
 set DOCKER_IMAGE_NAME=bookmark-vue
 set DOCKER_CONTAINER_NAME=bookmark-vue
 
