@@ -34,8 +34,9 @@
 </template>
 
 <script>
-import webSocket from '@/libs/util.websocket'
+// import webSocket from '@/libs/util.websocket'
 import {IMPORT_BOOKMARK} from '@/api/api.index'
+
 export default {
   name: 'import-bookmark',
   data () {
@@ -61,28 +62,28 @@ export default {
     this.token = localStorage.getItem('token')
   },
   mounted () {
-    webSocket.connect(location.hostname, location.port, '/api/bookmark/websocket')
-    const _this = this
-    webSocket.listen({
-      onmessage: function (data) {
-        if (data.data) {
-          const message = data.data
-          if (message.msgType === 'uploadBookmark') {
-            _this.progress = parseInt((message.msg.progress / message.msg.total) * 100)
-            _this.title = message.msg.title
-            if (_this.progress === 100) {
-              _this.title = ''
-            }
-          }
-        }
-      }
-    })
-    window.onbeforeunload = function () {
-      webSocket.close()
-    }
+    // webSocket.connect(location.hostname, location.port, '/api/bookmark/websocket')
+    // const _this = this
+    // webSocket.listen({
+    //   onmessage: function (data) {
+    //     if (data.data) {
+    //       const message = data.data
+    //       if (message.msgType === 'uploadBookmark') {
+    //         _this.progress = parseInt((message.msg.progress / message.msg.total) * 100)
+    //         _this.title = message.msg.title
+    //         if (_this.progress === 100) {
+    //           _this.title = ''
+    //         }
+    //       }
+    //     }
+    //   }
+    // })
+    // window.onbeforeunload = function () {
+    //   webSocket.close()
+    // }
   },
   destroyed () {
-    webSocket.close()
+    // webSocket.close()
   },
   methods: {
     beforeUpload (file) {
