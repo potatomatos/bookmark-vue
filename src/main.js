@@ -47,7 +47,6 @@ new Vue({
   },
   created () {
     this.accessToken = getQueryString('accessToken')
-    localStorage.setItem('token', this.accessToken)
   },
   methods: {
     ...mapActions('common/user', [
@@ -56,6 +55,7 @@ new Vue({
   },
   mounted () {
     if (this.accessToken) {
+      localStorage.setItem('token', this.accessToken)
       USER_INFO().then(res => {
         if (res.code === 200 && res.data) {
           cookies.set('uid', res.data.id)
